@@ -1,0 +1,402 @@
+#:kivy 1.0.9
+
+<wClient>:
+    id: wClient
+
+    ## define default values
+
+    #sid : None # defined as a property in the code
+    lastseen : None
+    snapclient  : None
+    host  : None
+    connected  : None
+    config_instance : None
+    config_latency  : 0
+    config_name  : ""
+    config_host_ip  : None
+    config_host_name : ""
+    config_volume_percent : 0
+    config_volume_muted : False
+
+
+    lbl:lbl
+    volume_slider:volume_slider
+    mute_btn:mute_btn
+    BoxLayout:
+        orientation : 'horizontal'
+        size: (self.parent.width,60)
+        pos: (self.parent.x, self.parent.y )
+        lbl:lbl
+        volume_slider:volume_slider
+        mute_btn:mute_btn
+        canvas:
+            Color:
+                rgba: .2,.2,.2,1
+            RoundedRectangle:
+                pos: (self.x , self.y)
+                size: (self.width ,self.height)
+        Label:
+            id:lbl
+            canvas:
+                Color:
+                    rgba:.8, .2, .2 ,0
+                Rectangle:
+                    pos: (self.x, self.y )
+                    size: (self.width,self.height)
+            size_hint_x:None
+            size_hint_y:None
+            height:50
+            width:150
+            text:root.config_name if root.config_name != "" else root.config_host_name
+        Slider:
+            id:volume_slider
+            size_hint_y:None
+            height: 50
+            size_hint_x:.7
+            min:0
+            max:100
+            step:1
+            value_track:True
+            value_track_color:[0, 0.7, .9, .8]
+            cursor_size :(20,20)
+            value : root.config_volume_percent
+            on_value: root.set_volume(self.value)
+        Button:
+            id : mute_btn
+            size_hint_x:None
+            size_hint_y:None
+            text: ''
+            width:50
+            height: 50
+            background_normal: 'volume.png' if root.config_volume_muted == False else 'volume_mute.png'
+            on_press: root.set_mute()
+        Button:
+            id : settings_btn
+            size_hint_x:None
+            size_hint_y:None
+            text: ''
+            width:50
+            height: 50
+            background_normal: 'settings.png'
+            on_press: root.press_client_settings()
+
+<wGroup>:
+
+    font_size:12
+    size_hint_x: 1
+    text: ""
+    markup:True
+    clients:clients
+
+    #sid : None
+    muted : None
+    name : None
+    stream_id : None
+
+    ScrollView:
+
+        size_hint_x:1
+        size_hint_y:1
+        do_scroll_x: False
+        do_scroll_y: True
+        BoxLayout:
+            id:clients
+            size_hint_x:1
+            size_hint_y:None
+            orientation : 'vertical'
+            spacing : 5
+            padding:3
+
+
+<wServer>:
+    BoxLayout:
+        orientation : 'vertical'
+        size: (self.parent.width,self.parent.height)
+
+
+        TabbedPanel:
+
+            id : groups
+            background_color : (1, 0, 0, 0)
+            do_default_tab: False
+            tab_pos : 'top_left'
+            tab_height : 50
+            tab_width : 200
+
+
+        BoxLayout:
+            id: bl1
+            size_hint_y: None
+            size_hint_x: None
+            width : self.parent.width
+            height: 35
+            canvas:
+                Color:
+                    rgba:.2, .2, .2 ,1
+                Rectangle:
+                    pos: (self.x, self.y )
+                    size: (self.width,self.height)
+            BoxLayout:
+                orientation : 'horizontal'
+                size: (self.parent.width,self.parent.height)
+                BoxLayout:
+                    size_hint_x: .8
+
+                Button:
+                    size_hint_x: .2
+                    text:"Get Status"
+                    on_press: root.GetStatus(root.after_GetStatus)
+                    background_color: 0,0,0,0  # the last zero is the critical on, make invisible
+                    border: (10,10,10,10)
+                    canvas.before:
+                        Color:
+                            rgba: 0,0,0,1
+                        RoundedRectangle:
+                            pos: (self.x +5, self.y+5)
+                            size: (self.width -10,self.height-10)
+
+
+<TabbedPanelHeader>:
+    background_normal:  "grey.png"
+    background_down: "transparent.png"
+
+<TabbedPanelStrip>
+    background:  "grey.png"
+    canvas:
+        Color:
+            rgba: .2,.2,.2,1
+        RoundedRectangle:
+            pos: (self.x , self.y)
+            size: (self.width ,self.height)
+
+
+
+<GroupSettings>:
+    #background: 'transparent.png'
+    title: 'Settings'
+    size_hint: .8, .8
+    padding: [10,10,10,10]
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: 'vertical'
+        pos: self.pos
+        size: root.size
+        Label:
+            size_hint_y :None
+            height : 30
+            text: 'Edit Group'
+            canvas.before:
+                Color:
+                    rgba: 0,0,0,1
+                Rectangle:
+                    pos: (self.x-2 , self.y+2)
+                    size: (self.width ,self.height)
+        BoxLayout:
+            size_hint_y :None
+            height : 30
+            orientation: 'horizontal'
+            Label:
+                text_size : self.size
+                size_hint_x :None
+                width : 100
+                text: 'Name'
+            TextInput:
+                background_color: (1,1,1,0.2)
+                foreground_color: (1, 1, 1, 1)
+                id: name
+                multiline: False
+                text: root.group.name
+        BoxLayout:
+            size_hint_y :None
+            height : 30
+            orientation: 'horizontal'
+            Label:
+                text_size : self.size
+                size_hint_x :None
+                width : 100
+                text: 'Stream'
+            Button:
+                id: streams_btn
+                multiline: False
+                text: ""
+
+
+
+
+        BoxLayout:
+
+            orientation: 'horizontal'
+            Button:
+                background_color: 0,0,0,0
+                border: (10,10,10,10)
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    RoundedRectangle:
+                        pos: (self.x +5, self.y+5)
+                        size: (self.width -10,self.height-10)
+                text: 'OK'
+                on_press: root._enter()
+                size_hint_y :None
+                height : 40
+            Button:
+                background_color: 0,0,0,0
+                border: (10,10,10,10)
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    RoundedRectangle:
+                        pos: (self.x +5, self.y+5)
+                        size: (self.width -10,self.height-10)
+                text: 'Cancel'
+                on_press: root._cancel()
+                size_hint_y :None
+                height : 40
+
+
+<ClientSettings>:
+    #background: 'transparent.png'
+    title: 'Settings'
+    size_hint: .8, .8
+    padding: [10,10,10,10]
+    auto_dismiss: False
+    groups_btn:groups_btn
+    BoxLayout:
+        orientation: 'vertical'
+        pos: self.pos
+        size: root.size
+        Label:
+            size_hint_y :None
+            height : 30
+            text: 'Edit Client'
+            canvas.before:
+                Color:
+                    rgba: 0,0,0,1
+                Rectangle:
+                    pos: (self.x-2 , self.y+2)
+                    size: (self.width ,self.height)
+        BoxLayout:
+            size_hint_y :None
+            height : 30
+            orientation: 'horizontal'
+            Label:
+                text_size : self.size
+                size_hint_x :None
+                width : 100
+                text: 'Name'
+            TextInput:
+                background_color: (1,1,1,0.2)
+                foreground_color: (1, 1, 1, 1)
+                id: name
+                multiline: False
+                text: root.client.config_name
+
+        BoxLayout:
+            size_hint_y :None
+            height : 30
+            orientation: 'horizontal'
+            Label:
+                size_hint_x :None
+                width : 100
+                text: 'Latency'
+                text_size : self.size
+            TextInput:
+                id: latency
+                background_color: (1,1,1,0.2)
+                foreground_color: (1, 1, 1, 1)
+                input_filter: "int"
+                multiline: False
+                text: str(root.client.config_latency)
+        BoxLayout:
+            size_hint_y :None
+            height : 30
+            orientation: 'horizontal'
+            Label:
+                size_hint_x :None
+                width : 100
+                text: 'Group'
+                text_size : self.size
+            Button:
+                id: groups_btn
+                text : ""
+                #background_color: (1,1,1,0.2)
+                #foreground_color: (1, 1, 1, 1)
+                #input_filter: "int"
+                #multiline: False
+                #text: str(root.client.config_latency)
+
+
+        BoxLayout:
+
+            orientation: 'horizontal'
+            Button:
+                background_color: 0,0,0,0  # the last zero is the critical on, make invisible
+                border: (10,10,10,10)
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    RoundedRectangle:
+                        pos: (self.x +5, self.y+5)
+                        size: (self.width -10,self.height-10)
+                text: 'OK'
+                on_press: root._enter()
+                size_hint_y :None
+                height : 40
+            Button:
+                background_color: 0,0,0,0  # the last zero is the critical on, make invisible
+                border: (10,10,10,10)
+                canvas.before:
+                    Color:
+                        rgba: 0,0,0,1
+                    RoundedRectangle:
+                        pos: (self.x +5, self.y+5)
+                        size: (self.width -10,self.height-10)
+                text: 'Cancel'
+                on_press: root._cancel()
+                size_hint_y :None
+                height : 40
+
+        Label:
+            id: er
+            foreground_color: 1, 250, 100, 1
+            color: 1, 0.67, 0, 1
+            size_hint_y: None
+            height: 0
+            text: root.error
+
+
+<CloseableHeader>
+    color: 1,1,1,1
+    disabled_color: self.color
+    # variable tab_width
+    lbl : lbl
+    mute_btn : mute_btn
+    BoxLayout:
+        mute_btn : mute_btn
+        pos: root.pos
+        size_hint: None, None
+        size: root.size
+        Label:
+            id: lbl
+            text: root.text
+        Button:
+            id : mute_btn
+            size_hint: None, None
+            width : 50
+            height:50
+            background_normal: 'volume.png'
+            on_press: root.content.set_mute(root.content,root)
+        Button:
+            size_hint: None, None
+            width : 50
+            height:50
+            background_normal: 'settings.png'
+            on_press: root.content.press_group_settings(root.content,root)
+
+
+
+
+
+
+
