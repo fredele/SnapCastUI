@@ -10,6 +10,8 @@ This is a SnapCast server remote written with the Kivy framework and Twisted/Aut
 
 See in release section, there’s an AppImage
 
+Download it here :
+https://github.com/fredele/SnapCastUI/releases/download/0.1/SnapCastUI.AppImage
 
 
 ## Functionnality
