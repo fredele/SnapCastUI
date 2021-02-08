@@ -4,7 +4,9 @@
 
 ![overview](image_1.png)
 
-This is a SnapCast server remote written with the Kivy framework and Twisted/Autobahn.
+This is a SnapCast server remote (WebSocket API) written with the Kivy framework and Twisted/Autobahn.
+
+
 
 ## Download
 
@@ -28,7 +30,7 @@ From the current API, features include (X) :
 * Group
   * [Group.GetStatus](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#groupgetstatus)
   * [Group.SetMute](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#groupsetmute) X
-  * [Group.SetStream](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#groupsetstream)
+  * [Group.SetStream](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#groupsetstream) X
   * [Group.SetClients](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#groupsetclients) X
   * [Group.SetName](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#groupsetname) X
 * Server
@@ -58,3 +60,7 @@ From the current API, features include (X) :
 
 
 * Renaming
+
+## Development
+
+Run main.py with Python 2.7 and the additionnal Libraries installed.
