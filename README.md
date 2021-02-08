@@ -4,7 +4,7 @@
 
 ![overview](image_1.png)
 
-This is a SnapCast server remote (WebSocket API) written with the Kivy framework and Twisted/Autobahn.
+This is a **SnapCast server remote (WebSocket API)** written with the Kivy framework and Twisted/Autobahn for **Linux**.
 
 
 
@@ -57,9 +57,6 @@ From the current API, features include (X) :
   * [Stream.OnUpdate](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#streamonupdate)
 * Server
   * [Server.OnUpdate](https://github.com/badaix/snapcast/blob/master/doc/json_rpc_api/v2_0_0.md#serveronupdate)
-
-
-* Renaming
 
 ## Development
 
